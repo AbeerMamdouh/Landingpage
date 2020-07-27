@@ -13,87 +13,133 @@
  * 
 */
 
-/* Define Global Variables*/
-const lists = document.querySelectorAll('.page__scroll');
 
-const sections = document.querySelectorAll('section');
+// Build navbar
+const lists = document.createElement('ul');
+lists.setAttribute("class", "lists__open");
+lists.setAttribute("id", "navbar__list");
 
-/* End Global Variables*/
+const arrOfLinks = ["Section 1", "Section 2", "Section 3", "Section 4"];
 
+arrOfLinks.forEach(link => { 
+  const links = document.createElement('a');
+  links.textContent = link;
+  links.setAttribute("class", "page__scroll");
+  links.setAttribute("href", "#"+link.toLowerCase().replace(/\s/g, ''))
+
+  const li = document.createElement('li');
+  li.setAttribute("class", "section_item");
+  li.appendChild(links);
+  lists.appendChild(li);
+});
+
+  const mainNavBar = document.querySelector('.navbar__menu');
+  mainNavBar.appendChild(lists);
+
+  
 
 // Scroll to section on link click with smooth scrolling
-lists.forEach(list => {
+let ul = document.getElementById("navbar__list");
 
-    list.addEventListener("click", (e) => {
-        
-        document.querySelector(e.target.dataset.section).scrollIntoView({
+let listItems = ul.getElementsByTagName("a");
 
-           behavior: 'smooth'
-        });
-    });
-});
+for(li of listItems){
+  li.addEventListener('click', function(event){
+    removeClass();
+
+    document.querySelector(this.getAttribute('href')).scrollIntoView({
+      behavior: 'smooth'
+  });
+    if(this.classList.contains('active')){
+      this.classList.remove("active");
+    } else {
+      this.classList.add("active");
+    }
+  })
+}
+
+function removeClass(){
+  for (let i = 0; i < listItems.length; i++) {
+    listItems[i].classList.remove('active');
+  }
+}
+
 
 
 // Add class 'active' to section when scrolling
-function changeLinkState() {
+const listOfItems = document.querySelectorAll('.page__scroll');
+const sections = document.querySelectorAll('section');
 
+function changeLinkState() {
   let index = sections.length;
 
   while(--index && window.scrollY + 50 < sections[index].offsetTop) {}
   
-       lists.forEach((list) => list.classList.remove('active'));
-
-       lists[index].classList.add('active');
-
-  }
+  listOfItems.forEach((item) => item.classList.remove('active'));
+  listOfItems[index].classList.add('active');
+}
 
 changeLinkState();
-
 window.addEventListener('scroll', changeLinkState);
 
 
 
-/*
-
-function changeNavbarState(e){
-
-if(e.target.display === 'show'){
-
-  navbarMenu.style.display = 'block';
-
-}else{
-
-  navbarMenu.style.display = 'none';
-}
-
-}
-
-setTimeout(changeNavbarState, 3000);
-
-window.addEventListener('scroll', changeNavbarState);
-
-*/
-
-
-
-
-/*End Main Functions
- * Begin Events
-*/
 
 // Build menu 
 document.addEventListener("click", function(event) {
+
   if (event.target.classList.contains("navbar-toggler-icon")) {
       document.getElementById("navbarResponsive").classList.toggle("show");
+
   } else if (event.target.classList.contains("nav-link")) {
       document.getElementById("navbarResponsive").classList.remove("show");
   }
 });
 
 let el = document.getElementsByClassName('nav-link');
+
 if (el.onclick) {
   document.getElementById("navbarResponsive").classList.remove("show");
 }
+
+
+
+// Scroll to section on link click with smooth scrolling in tablet & mobile screens
+let dropDowns = Array.from(document.querySelectorAll('.nav-link'));
+
+const handleClick = (e) => {
+  // e.preventDefault();
+  dropDowns.forEach(node => {
+    node.classList.remove('active');
+  });
+  e.currentTarget.classList.add('active');
+}
+
+dropDowns.forEach(node => {
+  node.addEventListener('click', handleClick)
+});
+
+
+
+// Add class 'active' to section when scrolling in toggler menu for tablet & mobile screens
+function changeItemState() {
+  let index = sections.length;
+
+  while(--index && window.scrollY + 50 < sections[index].offsetTop) {}
+  
+  dropDowns.forEach((i) => i.classList.remove('active'));
+  dropDowns[index].classList.add('active');
+}
+
+changeItemState();
+window.addEventListener('scroll', changeItemState);
+
+
+
+
+
+
+
 
 
 

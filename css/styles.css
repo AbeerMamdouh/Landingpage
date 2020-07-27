@@ -8,7 +8,7 @@
  *
 */
 
-
+html{scroll-behavior:smooth}
 /* ---- Base Rules ---- */
 body {
     background: rgb(136,203,171);
@@ -106,10 +106,16 @@ section {
             cursor: pointer;
 
        }
+
      #navbar__list .active {
          color: #b5b50d;
          transition: ease 0.3s all;
        }  
+
+      .active {
+        color: #b5b50d !important;
+        transition: ease 0.3s all;
+      }  
 
        @media (max-width: 991px) {
         ul {
@@ -134,10 +140,6 @@ section {
 
     .navbar-toggler {
         border-color: #505254;
-    }
-
-    .nav-link:hover{
-        color: black !important;
     }
     
 
